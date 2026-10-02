@@ -1,0 +1,1 @@
+Run: dotnet new sln -n NexusControl && dotnet sln add src/*/*.csproj tests/*/*.csproj

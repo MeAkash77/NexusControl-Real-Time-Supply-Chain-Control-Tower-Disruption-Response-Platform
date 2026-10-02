@@ -1,0 +1,8 @@
+services:
+  sql: {image: mcr.microsoft.com/mssql/server:2022-latest, environment: {ACCEPT_EULA: "Y", MSSQL_SA_PASSWORD: Your_pass123}, ports: ["1433:1433"]}
+  kafka: {image: apache/kafka:3.7.0, ports: ["9092:9092"]}
+  redis: {image: redis:7, ports: ["6379:6379"]}
+  elasticsearch: {image: "docker.elastic.co/elasticsearch/elasticsearch:8.13.0", environment: {discovery.type: single-node, xpack.security.enabled: "false"}, ports: ["9200:9200"]}
+  influxdb: {image: "influxdb:1.8", environment: {INFLUXDB_DB: nexus}, ports: ["8086:8086"]}
+  telegraf: {image: telegraf:1.30, volumes: ["./telegraf.conf:/etc/telegraf/telegraf.conf:ro"], depends_on: [influxdb]}
+  grafana: {image: grafana/grafana:10.4.0, ports: ["3000:3000"], depends_on: [influxdb]}
